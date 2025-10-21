@@ -82,3 +82,65 @@ export const _getTaskbyStatus = (status) => {
     return "Failed to list tasks";
   }
 };
+
+export const _updateTask = (id, description) => {
+  try {
+    id = parseInt(id);
+    console.log(id, description)
+    if (fs.existsSync("./tasks.json")) {
+      let tasks = JSON.parse(fs.readFileSync("./tasks.json", "utf-8"));
+      let index = tasks.findIndex((el) => el.id === id);
+      if (index === -1) throw new Error("Task not found");
+      tasks[index].description = description;
+      fs.writeFileSync("./tasks.json", JSON.stringify(tasks, null, 2));
+      console.table(tasks[index]);
+      return "Task updated successfully";
+    } else {
+      return "There are not tasks";
+    }
+  } catch (error) {
+    console.error("Error updating tasks:", error);
+    return "Failed to list tasks";
+  }
+};
+export const _updateStatus = (id, status) => {
+  try {
+    id = parseInt(id);
+    if (fs.existsSync("./tasks.json")) {
+      let tasks = JSON.parse(fs.readFileSync("./tasks.json", "utf-8"));
+      let index = tasks.findIndex((el) => el.id === id);
+      if (index === -1) throw new Error("Task not found");
+      tasks[index].status = status;
+      fs.writeFileSync("./tasks.json", JSON.stringify(tasks, null, 2));
+      console.table(tasks[index]);
+      return "Task updated successfully";
+    } else {
+      return "There are not tasks";
+    }
+  } catch (error) {
+    console.error("Error updating tasks:", error);
+    return "Failed to list tasks";
+  }
+};
+
+export const _deleteTask = (id, status) => {
+  try {
+    id = parseInt(id);
+    if (fs.existsSync("./tasks.json")) {
+      let tasks = JSON.parse(fs.readFileSync("./tasks.json", "utf-8"));
+      let index = tasks.findIndex((el) => el.id === id);
+      if (index === -1) throw new Error("Task not found");
+      tasks.splice(index,1)
+      fs.writeFileSync("./tasks.json", JSON.stringify(tasks, null, 2));
+      return "Task deleted successfully";
+    } else {
+      return "There are not tasks";
+    }
+  } catch (error) {
+    console.error("Error updating tasks:", error);
+    return "Failed to list tasks";
+  }
+};
+
+
+
